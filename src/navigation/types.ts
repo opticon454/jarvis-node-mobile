@@ -208,6 +208,8 @@ export type RootStackParamList = {
   SignalAutomations: { householdId: string };
   SmartHomeSetup: NavigatorScreenParams<SmartHomeSetupParamList>;
   VoiceProfile: undefined;
+  RecoveryCode: undefined;
+  FleetConfig: undefined;
   CommandData: NavigatorScreenParams<CommandDataStackParamList>;
   Memories: NavigatorScreenParams<MemoriesStackParamList> | undefined;
   Phonebook: NavigatorScreenParams<PhonebookStackParamList> | undefined;

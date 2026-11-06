@@ -14,6 +14,8 @@ import PhonebookStackNavigator from './PhonebookStackNavigator';
 import RecentCommandsStackNavigator from './RecentCommandsStackNavigator';
 import SmartHomeSetupNavigator from './SmartHomeSetupNavigator';
 import HouseholdEditScreen from '../screens/Settings/HouseholdEditScreen';
+import FleetConfigScreen from '../screens/Settings/FleetConfigScreen';
+import RecoveryCodeScreen from '../screens/Settings/RecoveryCodeScreen';
 import SignalAutomationsScreen from '../screens/Settings/SignalAutomationsScreen';
 import SettingsScreen from '../screens/Settings/SettingsScreen';
 import VoiceProfileScreen from '../screens/Settings/VoiceProfileScreen';
@@ -61,6 +63,8 @@ const RootNavigator = () => {
       <Stack.Screen name="HouseholdEdit" component={HouseholdEditScreen} />
       <Stack.Screen name="SignalAutomations" component={SignalAutomationsScreen} />
       <Stack.Screen name="VoiceProfile" component={VoiceProfileScreen} />
+      <Stack.Screen name="RecoveryCode" component={RecoveryCodeScreen} />
+      <Stack.Screen name="FleetConfig" component={FleetConfigScreen} />
       <Stack.Screen name="RecentCommands" component={RecentCommandsStackNavigator} />
       <Stack.Screen
         name="SmartHomeSetup"

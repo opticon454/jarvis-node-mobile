@@ -505,6 +505,40 @@ const SettingsScreen = () => {
         </Card.Content>
       </Card>
 
+      {/* Fleet settings and the household recovery code */}
+      {householdId && (
+        <Card style={styles.card} testID="settings-section-fleet">
+          <Card.Content>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
+              All nodes
+            </Text>
+            <TouchableRipple testID="settings-fleet-config-row" onPress={() => navigation.navigate('FleetConfig')}>
+              <View style={styles.switchRow}>
+                <View style={{ flex: 1 }}>
+                  <Text variant="bodyMedium">Fleet settings</Text>
+                  <Text variant="bodySmall" style={styles.hint}>
+                    Set a secret or setting once for every node
+                  </Text>
+                </View>
+                <Icon source="chevron-right" size={24} />
+              </View>
+            </TouchableRipple>
+            <Divider style={{ marginVertical: 4 }} />
+            <TouchableRipple testID="settings-recovery-code-row" onPress={() => navigation.navigate('RecoveryCode')}>
+              <View style={styles.switchRow}>
+                <View style={{ flex: 1 }}>
+                  <Text variant="bodyMedium">Recovery code</Text>
+                  <Text variant="bodySmall" style={styles.hint}>
+                    Keep it in your password manager to get back in if this phone is lost
+                  </Text>
+                </View>
+                <Icon source="chevron-right" size={24} />
+              </View>
+            </TouchableRipple>
+          </Card.Content>
+        </Card>
+      )}
+
       {/* Voice */}
       {householdId && (
         <Card style={styles.card} testID="settings-section-voice">
