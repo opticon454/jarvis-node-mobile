@@ -24,6 +24,8 @@ reason is in its `properties.skip_reason`).
 | Settings/HouseholdEditScreen: watches and errand-autonomy switches | flow | household-watches-errands.yaml (admin toggles), household-member-view.yaml (read only) |
 | Settings/HouseholdEditScreen: pantry toggle | not tested | packages (user, 2026-10-17) |
 | Settings/HouseholdEditScreen: home presence (location) | not tested | needs a location fix; not in this piece |
+| Settings/RecoveryCodeScreen: create, show, hide, a malformed code refused | flow | recovery-code.yaml; restore of a right code and giving the key to nodes need live nodes: jarvis-server scripts/e2e-fleet-config |
+| Settings/FleetConfigScreen: no-key redirect, save a secret, remove it | flow | fleet-config.yaml; what a node does with it: jarvis-server scripts/e2e-fleet-config |
 | Settings/SignalAutomationsScreen | flow | signal-automations.yaml |
 | Settings/VoiceProfileScreen (no recording) | flow | voice-profile.yaml; recording is the voice lane's |
 | Settings/IntegrationAuthScreen | later | not in piece 6 |

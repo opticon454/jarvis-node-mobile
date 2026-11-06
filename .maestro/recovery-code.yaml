@@ -1,0 +1,69 @@
+appId: com.jarvis.nodemobile
+name: Recovery code screen
+# Settings → All nodes → Recovery code (src/screens/Settings/RecoveryCodeScreen.tsx): the
+# household has no key on this phone, so the screen offers to create one; creating it shows the
+# recovery code once, Hide and Show work, and a malformed code typed under "Restore" is refused
+# with its reason. Nothing is restored over the new key and no node is touched: "Give key to all
+# nodes" waits on every seeded node and is covered by the sandbox run of
+# jarvis-server's scripts/e2e-fleet-config instead.
+tags:
+  - settings
+  - security
+  - e2e
+env:
+  EMAIL: "test@jarvisautomation.io"
+  PASSWORD: "DevPass123!"
+---
+- launchApp:
+    clearState: true
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open-settings.yaml
+- scrollUntilVisible:
+    element:
+      id: "settings-recovery-code-row"
+    direction: DOWN
+- tapOn:
+    id: "settings-recovery-code-row"
+- extendedWaitUntil:
+    visible:
+      id: "recovery-create"
+    timeout: 15000
+- assertNotVisible:
+    id: "recovery-code"
+- tapOn:
+    id: "recovery-create"
+# The code is shown once, right after the key is made.
+- extendedWaitUntil:
+    visible:
+      id: "recovery-code"
+    timeout: 15000
+- assertVisible:
+    id: "recovery-copy"
+- tapOn:
+    id: "recovery-hide"
+- assertNotVisible:
+    id: "recovery-code"
+- assertVisible:
+    id: "recovery-show"
+- tapOn:
+    id: "recovery-show"
+- assertVisible:
+    id: "recovery-code"
+# A malformed code is refused with its reason, before anything is checked or stored.
+- scrollUntilVisible:
+    element:
+      id: "recovery-input"
+    direction: DOWN
+- tapOn:
+    id: "recovery-input"
+- inputText: "ABCDE-FGHJK"
+- hideKeyboard
+- tapOn:
+    id: "recovery-restore"
+- extendedWaitUntil:
+    visible:
+      text: ".*60 characters.*"
+    timeout: 10000
+- back
+- assertVisible:
+    id: "settings-recovery-code-row"

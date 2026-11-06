@@ -1,0 +1,78 @@
+appId: com.jarvis.nodemobile
+name: Fleet settings screen
+# Settings → All nodes → Fleet settings (src/screens/Settings/FleetConfigScreen.tsx). With no
+# household key on this phone the screen sends the user to the Recovery code screen; after a key
+# is made there, Fleet settings picks it up on return, a secret is saved for all nodes (the value
+# stays masked) and then removed. The seeded nodes have no agent behind them, so what a node does
+# with it is covered by jarvis-server's scripts/e2e-fleet-config instead.
+tags:
+  - settings
+  - e2e
+env:
+  EMAIL: "test@jarvisautomation.io"
+  PASSWORD: "DevPass123!"
+---
+- launchApp:
+    clearState: true
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open-settings.yaml
+- scrollUntilVisible:
+    element:
+      id: "settings-fleet-config-row"
+    direction: DOWN
+- tapOn:
+    id: "settings-fleet-config-row"
+- extendedWaitUntil:
+    visible:
+      id: "fleet-go-recovery"
+    timeout: 15000
+- tapOn:
+    id: "fleet-go-recovery"
+- extendedWaitUntil:
+    visible:
+      id: "recovery-create"
+    timeout: 15000
+- tapOn:
+    id: "recovery-create"
+- extendedWaitUntil:
+    visible:
+      id: "recovery-code"
+    timeout: 15000
+- back
+# Back on Fleet settings, which reloads on focus and now has a key.
+- extendedWaitUntil:
+    visible:
+      id: "fleet-name"
+    timeout: 15000
+- assertVisible:
+    id: "fleet-empty"
+- tapOn:
+    id: "fleet-name"
+- inputText: "E2E_FLOW_SECRET"
+- tapOn:
+    id: "fleet-value"
+- inputText: "flow-value"
+- hideKeyboard
+- tapOn:
+    id: "fleet-save"
+- extendedWaitUntil:
+    visible:
+      text: "E2E_FLOW_SECRET saved.*"
+    timeout: 20000
+- assertVisible:
+    id: "fleet-value-E2E_FLOW_SECRET"
+- assertVisible:
+    text: "••••••••"
+- assertNotVisible:
+    text: "flow-value"
+- tapOn:
+    id: "fleet-remove-E2E_FLOW_SECRET"
+- extendedWaitUntil:
+    visible:
+      text: "E2E_FLOW_SECRET removed.*"
+    timeout: 20000
+- assertVisible:
+    id: "fleet-empty"
+- back
+- assertVisible:
+    id: "settings-fleet-config-row"
