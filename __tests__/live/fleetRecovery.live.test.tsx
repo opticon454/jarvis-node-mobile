@@ -77,6 +77,10 @@ jest.mock('../../src/api/apiClient', () => {
 const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockNavigate, goBack: jest.fn() }),
+  useFocusEffect: (cb: () => void) => {
+    const { useEffect } = require('react');
+    useEffect(cb, [cb]);
+  },
 }));
 jest.mock('../../src/auth/AuthContext', () => ({
   useAuth: () => ({ state: { activeHouseholdId: process.env.JARVIS_LIVE_HOUSEHOLD } }),

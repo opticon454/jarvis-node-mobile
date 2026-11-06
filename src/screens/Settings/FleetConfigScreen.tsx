@@ -4,8 +4,8 @@
  * stores ciphertext only (docs/cc/14-fleet-config-and-recovery.md in jarvis-server).
  */
 
-import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Appbar, Button, Card, HelperText, SegmentedButtons, Text, TextInput } from 'react-native-paper';
 
@@ -64,9 +64,12 @@ const FleetConfigScreen: React.FC = () => {
     }
   }, [householdId, tab]);
 
-  useEffect(() => {
-    void load();
-  }, [load]);
+  // Reload whenever the screen is focused: the key may have just been made on the Recovery screen.
+  useFocusEffect(
+    useCallback(() => {
+      void load();
+    }, [load]),
+  );
 
   const apply = async (patch: Record<string, string | number | boolean | null>, done: string) => {
     setBusy(true);
