@@ -3,7 +3,7 @@
  * phone and on the nodes, never on the server (docs/cc/14-fleet-config-and-recovery.md).
  *
  * It lives in the same SecureStore slots as a node's K2, under the pseudo node id
- * `household:{id}`, so it is user-scoped, survives logout and is deliberately not deleted by
+ * `household-{id}`, so it is user-scoped, survives logout and is deliberately not deleted by
  * clearUserData. A node stores it in its normal K2 slot, so the existing K2 relay delivers it.
  */
 
@@ -14,8 +14,10 @@ import { K2KeyPair, deleteK2, generateK2, getK2, storeK2 } from './k2Service';
 import { provisionK2ToNode } from '../api/nodeSettingsApi';
 import type { FleetConfigItem } from '../api/fleetConfigApi';
 
-export const householdKeyId = (householdId: string): string => `household:${householdId}`;
-const previousKeyId = (householdId: string): string => `household-previous:${householdId}`;
+// These become SecureStore keys (see k2Service), which accept only letters, digits, ".", "-" and "_":
+// a colon is rejected on a real device although the Jest mock accepts anything.
+export const householdKeyId = (householdId: string): string => `household-${householdId}`;
+export const previousKeyId = (householdId: string): string => `household-previous-${householdId}`;
 
 /** AAD for fleet config: bound to the household and type, not to a node (see FleetAAD in Go). */
 export const fleetAad = (householdId: string, configType: string): string =>

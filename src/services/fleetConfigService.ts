@@ -22,6 +22,7 @@ import {
   getHouseholdKey,
   getPreviousHouseholdKey,
   householdKeyId,
+  previousKeyId,
 } from './householdKeyService';
 import { K2KeyPair, generateK2, storeK2 } from './k2Service';
 
@@ -145,7 +146,7 @@ export async function rotateHouseholdKey(householdId: string, nodeIds: string[])
   let next = current;
   if (!previous) {
     // Not resuming: keep the old key until this finishes, then switch.
-    await storeK2({ ...current, nodeId: `household-previous:${householdId}` });
+    await storeK2({ ...current, nodeId: previousKeyId(householdId) });
     next = await generateK2(householdKeyId(householdId));
     await storeK2(next);
   }

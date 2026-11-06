@@ -25,10 +25,17 @@ jest.mock('jarvis-crypto', () => require('../helpers/nodeCrypto'));
 
 // SecureStore in memory.
 const mockStore = new Map<string, string>();
+const mockSecureKey = (k: string): string => {
+  // expo-secure-store: keys must be non-empty and contain only alphanumerics, ".", "-" and "_".
+  if (!/^[A-Za-z0-9._-]+$/.test(k)) {
+    throw new Error('Invalid key provided to SecureStore. Keys must not be empty and contain only alphanumeric characters, ".", "-", and "_".');
+  }
+  return k;
+};
 jest.mock('expo-secure-store', () => ({
-  setItemAsync: jest.fn(async (k: string, v: string) => void mockStore.set(k, v)),
-  getItemAsync: jest.fn(async (k: string) => mockStore.get(k) ?? null),
-  deleteItemAsync: jest.fn(async (k: string) => void mockStore.delete(k)),
+  setItemAsync: jest.fn(async (k: string, v: string) => void mockStore.set(mockSecureKey(k), v)),
+  getItemAsync: jest.fn(async (k: string) => mockStore.get(mockSecureKey(k)) ?? null),
+  deleteItemAsync: jest.fn(async (k: string) => void mockStore.delete(mockSecureKey(k))),
 }));
 
 // jarvisd's fleet routes in memory: ciphertext only.
