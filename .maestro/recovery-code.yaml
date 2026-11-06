@@ -57,6 +57,7 @@ env:
 - tapOn:
     id: "recovery-input"
 - inputText: "ABCDE-FGHJK"
+- hideKeyboard
 - tapOn:
     id: "recovery-restore"
 - extendedWaitUntil:

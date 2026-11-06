@@ -52,6 +52,7 @@ env:
 - tapOn:
     id: "fleet-value"
 - inputText: "flow-value"
+- hideKeyboard
 - tapOn:
     id: "fleet-save"
 - extendedWaitUntil:
