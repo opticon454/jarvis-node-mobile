@@ -1,5 +1,6 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
+import { ScrollView } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 
 import RecoveryCodeScreen from '../../src/screens/Settings/RecoveryCodeScreen';
@@ -52,6 +53,12 @@ beforeEach(() => {
 });
 
 describe('RecoveryCodeScreen', () => {
+  it('lets a button press through while an input is focused (the first tap must not only blur it)', async () => {
+    const { UNSAFE_getByType, findByTestId } = render(<RecoveryCodeScreen />, { wrapper });
+    await findByTestId('recovery-input');
+    expect(UNSAFE_getByType(ScrollView).props.keyboardShouldPersistTaps).toBe('handled');
+  });
+
   it('offers to create a key when the household has none, and shows the code once', async () => {
     mockCreate.mockResolvedValue(mockPair);
     const { findByTestId, queryByTestId, getByTestId } = render(<RecoveryCodeScreen />, { wrapper });

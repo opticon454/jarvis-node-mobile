@@ -99,7 +99,8 @@ const FleetConfigScreen: React.FC = () => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Fleet settings" />
       </Appbar.Header>
-      <ScrollView contentContainerStyle={styles.content}>
+      {/* "handled": with the default ("never") the first tap on a button only blurs the focused input. */}
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         {!householdId ? (
           <Text>Choose a household first.</Text>
         ) : hasKey === false ? (

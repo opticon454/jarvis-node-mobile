@@ -161,7 +161,8 @@ const RecoveryCodeScreen: React.FC = () => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Recovery code" />
       </Appbar.Header>
-      <ScrollView contentContainerStyle={styles.content}>
+      {/* "handled": with the default ("never") the first tap on a button only blurs the focused input. */}
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         {loading ? (
           <ActivityIndicator testID="recovery-loading" />
         ) : (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
+import { ScrollView } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 
 import FleetConfigScreen, { parseFleetValue } from '../../src/screens/Settings/FleetConfigScreen';
@@ -53,6 +54,12 @@ describe('parseFleetValue', () => {
 });
 
 describe('FleetConfigScreen', () => {
+  it('lets a button press through while an input is focused (the first tap must not only blur it)', async () => {
+    const { UNSAFE_getByType, findByTestId } = render(<FleetConfigScreen />, { wrapper });
+    await findByTestId('fleet-name');
+    expect(UNSAFE_getByType(ScrollView).props.keyboardShouldPersistTaps).toBe('handled');
+  });
+
   it('sends the user to the recovery screen when there is no household key', async () => {
     mockGetKey.mockResolvedValue(null);
     const { findByTestId } = render(<FleetConfigScreen />, { wrapper });
